@@ -21,6 +21,20 @@ const Desc = styled.div`
   font-weight: 400;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
+const ButtonTwoContainer = styled.div`
+  margin-left: 10px;
+  @media (max-width: 475px) {
+    margin-left: 0;
+  }
+`;
+
 function Submitted({ message, email, nam, cookieSubmitted }) {
   useEffect(() => {
     sendEmail();
@@ -36,7 +50,7 @@ function Submitted({ message, email, nam, cookieSubmitted }) {
     messageData = message.substring(0, messageCutLength) + "...";
   }
 
-  let twitterShare = `My message to Marcelo: "${messageData}". Add your own: `;
+  let twitterShare = `My message to Marcelo: "${messageData}". Add your own:`;
   console.log(twitterShare);
 
   let whatsAppShare =
@@ -99,12 +113,12 @@ function Submitted({ message, email, nam, cookieSubmitted }) {
           ? "Share on Social Media so others can add a message too?"
           : "Share your message on Social Media?"}
       </Desc>
-      <Button text={"Share on Twitter"} action={handleTwitterShare} />
-      <Button
-        text={"Share on WhatsApp"}
-        action={handleWhatsAppShare}
-        styles={{ marginLeft: "10px" }}
-      />
+      <ButtonContainer>
+        <Button text={"Share on Twitter"} action={handleTwitterShare} />
+        <ButtonTwoContainer>
+          <Button text={"Share on WhatsApp"} action={handleWhatsAppShare} />
+        </ButtonTwoContainer>
+      </ButtonContainer>
     </ContentContainer>
   );
 }

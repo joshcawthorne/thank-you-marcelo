@@ -318,10 +318,10 @@ function MessageForm() {
   };
 
   const ContainerAnim = {
-    hidden: { opacity: 0, y: 0 },
+    hidden: { opacity: 0 },
     show: {
       opacity: [0, 1],
-      y: 0,
+
       transition: {
         duation: 0.1,
         ease: "easeOut",
@@ -383,6 +383,7 @@ function MessageForm() {
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
                     error={emailError}
+                    autoCapitalize={false}
                   />
                 </InputItem>
                 <InputItem>
