@@ -376,6 +376,7 @@ function MessageForm() {
                     error={nameError}
                     type={"name"}
                     autoComplete={"name"}
+                    autoFocus={true}
                   />
                 </InputItem>
                 <InputItem>
