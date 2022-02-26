@@ -17,9 +17,10 @@ const Title = styled(motion.div)`
   font-weight: 700;
   margin-bottom: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
+  width: 100%;
   span {
     color: #fbf200;
     margin-right: 10px;
@@ -43,6 +44,7 @@ const Description = styled(motion.div)`
     font-size: 14px;
     line-height: 20px;
     margin-bottom: 20px;
+    padding-right: 0;
     p {
       margin-bottom: 15px;
     }

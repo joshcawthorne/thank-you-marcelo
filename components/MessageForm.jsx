@@ -16,7 +16,7 @@ import errorKeys from "utils/errorKeys";
 import Button from "components/Button";
 import ErrorIcon from "assets/svg/error.svg";
 
-const MessageFormContainer = styled.div`
+const MessageFormContainer = styled(motion.div)`
   width: 600px;
   background-color: #021927;
   flex-direction: column;
@@ -154,7 +154,7 @@ const Label = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   padding: 20px;
   background-color: #102330;
@@ -335,13 +335,17 @@ function MessageForm() {
   };
 
   return (
-    <motion.div variants={ContainerAnim} initial="hidden" animate={"show"}>
+    <>
       <ReCaptchaProvider
         siteKeyV2="6LfWaKIeAAAAADk4mEmTIcCe5p-pOYaXjHjUOOks"
         langCode="en"
         hideV3Badge={false}
       >
-        <MessageFormContainer>
+        <MessageFormContainer
+          variants={ContainerAnim}
+          initial="hidden"
+          animate={"show"}
+        >
           {submitted ? (
             <Submitted
               message={messageInput}
@@ -400,9 +404,6 @@ function MessageForm() {
                     error={messageError}
                   />
                 </InputItem>
-              </ContentContainer>
-
-              <ButtonContainer>
                 <CaptchaContainer>
                   <ReCaptchaV2
                     callback={v2Callback}
@@ -413,6 +414,9 @@ function MessageForm() {
                     tabindex={0}
                   />
                 </CaptchaContainer>
+              </ContentContainer>
+
+              <ButtonContainer>
                 <Button
                   text={"Submit Message"}
                   action={handleSubmit}
@@ -424,7 +428,7 @@ function MessageForm() {
           )}
         </MessageFormContainer>
       </ReCaptchaProvider>
-    </motion.div>
+    </>
   );
 }
 
