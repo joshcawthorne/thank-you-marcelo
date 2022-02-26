@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Image from "next/image";
 import axios from "axios";
+import { NextSeo } from "next-seo";
 
 import MessageForm from "components/MessageForm";
 import TextContent from "components/TextContent";
@@ -45,7 +46,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: "Roobert", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     padding: 0;
     margin: 0;
@@ -108,6 +110,31 @@ const StyledImage = styled(Image)``;
 export default function Home() {
   return (
     <PageContainer>
+      <NextSeo
+        title="Gracias, Marcelo."
+        description="Share your message of thanks with Marcelo."
+        canonical="https://gracias-marcelo.lufctrust.com/"
+        openGraph={{
+          url: "https://gracias-marcelo.lufctrust.com/",
+          title: "Gracias, Marcelo.",
+          description: "Share your message of thanks with Marcelo.",
+          images: [
+            {
+              url: "/openGraphImage.jpg",
+              width: 1200,
+              height: 630,
+              alt: "Gracias, Marcelo",
+              type: "image/jpeg",
+            },
+          ],
+          site_name: "Gracias, Marcelo.",
+        }}
+        twitter={{
+          handle: "@lufctrust",
+          site: "https://gracias-marcelo.lufctrust.com/",
+          cardType: "summary_large_image",
+        }}
+      />
       <GlobalStyle />
       <Header />
       <InnerContainer>
