@@ -51,7 +51,7 @@ function TextContent() {
       <Description>
         <p>
           While this isn't how we dreamed our journey would end, we will be
-          forever greatful to Marcelo Bielsa for what he has done for our club
+          forever grateful to Marcelo Bielsa for what he has done for our club
           over the past four years.
         </p>
         <p>

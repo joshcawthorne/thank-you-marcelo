@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
 import { supabase } from "utils/supabaseClient";
+import Submitted from "components/Submitted";
 import { validateFullName, validateEmail } from "utils/validators";
 import errorKeys from "utils/errorKeys";
 import Button from "components/Button";
@@ -201,6 +202,7 @@ function MessageForm() {
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [messageError, setMessageError] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   async function handleSubmit() {
     setEmailError(false);
@@ -265,6 +267,7 @@ function MessageForm() {
         setTimeout(() => {
           console.log(data);
           setLoading(false);
+          setSubmitted(true);
         }, 2000);
       }
     } catch (error) {
@@ -276,54 +279,61 @@ function MessageForm() {
   return (
     <>
       <MessageFormContainer>
-        <ContentContainer>
-          {error && (
-            <ErrorContainer
-              initial={{ opacity: 0 }}
-              animate={error ? { opacity: 1 } : { opacity: 0 }}
-            >
-              <ModalIconContainer>
-                <ErrorIcon stroke={"#fff"} width={"35px"} />
-              </ModalIconContainer>
-              <ModalMessageContainer>{errorMessage}</ModalMessageContainer>
-            </ErrorContainer>
-          )}
-          <Title>Submit a Message</Title>
-          <InputItem>
-            <Label>Your Name</Label>
-            <TextInput
-              placeholder="Your Name"
-              value={nameInput}
-              onChange={(e) => setNameInput(e.target.value)}
-              error={nameError}
-            />
-          </InputItem>
-          <InputItem>
-            <Label>Your Email</Label>
-            <TextInput
-              placeholder="Your email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              error={emailError}
-            />
-          </InputItem>
-          <InputItem>
-            <Label>Your Message</Label>
-            <MessageContent
-              value={messageInput}
-              onChange={(e) => setMessageInput(e.target.value)}
-              rows={10}
-              error={messageError}
-            />
-          </InputItem>
-        </ContentContainer>
-        <ButtonContainer>
-          <Button
-            text={"Submit Message"}
-            action={handleSubmit}
-            loading={loading}
-          />
-        </ButtonContainer>
+        {submitted ? (
+          <Submitted message={messageInput} />
+        ) : (
+          <div>
+            <ContentContainer>
+              {error && (
+                <ErrorContainer
+                  initial={{ opacity: 0 }}
+                  animate={error ? { opacity: 1 } : { opacity: 0 }}
+                >
+                  <ModalIconContainer>
+                    <ErrorIcon stroke={"#fff"} width={"35px"} />
+                  </ModalIconContainer>
+                  <ModalMessageContainer>{errorMessage}</ModalMessageContainer>
+                </ErrorContainer>
+              )}
+
+              <Title>Submit a Message</Title>
+              <InputItem>
+                <Label>Your Name</Label>
+                <TextInput
+                  placeholder="Your Name"
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  error={nameError}
+                />
+              </InputItem>
+              <InputItem>
+                <Label>Your Email</Label>
+                <TextInput
+                  placeholder="Your email"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  error={emailError}
+                />
+              </InputItem>
+              <InputItem>
+                <Label>Your Message</Label>
+                <MessageContent
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  rows={10}
+                  error={messageError}
+                />
+              </InputItem>
+            </ContentContainer>
+            <ButtonContainer>
+              <Button
+                text={"Submit Message"}
+                action={handleSubmit}
+                loading={loading}
+              />
+            </ButtonContainer>
+          </div>
+        )}
       </MessageFormContainer>
     </>
   );
