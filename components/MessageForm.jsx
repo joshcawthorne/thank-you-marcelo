@@ -276,9 +276,16 @@ function MessageForm() {
 
       if (error) {
         console.log(error);
-        if (error.message === errorKeys.DUPLICATE_EMAIL) {
+        console.log(error.message);
+        if (
+          error.message === errorKeys.DUPLICATE_EMAIL ||
+          error.message ===
+            'duplicate key value violates unique constraint "messages_email_key"'
+        ) {
           setTimeout(() => {
-            setErrorMessage(error.message);
+            setErrorMessage(
+              "It looks like you've already submitted a message."
+            );
             setError(true);
             setLoading(false);
           }, 2000);
