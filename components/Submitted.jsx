@@ -32,6 +32,7 @@ const ButtonTwoContainer = styled.div`
   margin-left: 10px;
   @media (max-width: 475px) {
     margin-left: 0;
+    margin-top: 10px;
   }
 `;
 
