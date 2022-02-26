@@ -280,7 +280,11 @@ function MessageForm() {
     <>
       <MessageFormContainer>
         {submitted ? (
-          <Submitted message={messageInput} />
+          <Submitted
+            message={messageInput}
+            email={emailInput}
+            name={nameInput}
+          />
         ) : (
           <div>
             <ContentContainer>

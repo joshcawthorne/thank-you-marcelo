@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled, { css } from "styled-components";
 import Button from "./Button";
 
@@ -20,7 +21,15 @@ const Desc = styled.div`
   font-weight: 400;
 `;
 
-function Submitted({ message }) {
+function Submitted({ message, email, name }) {
+  useEffect(() => {
+    sendEmail();
+  }, []);
+
+  let nameParsed = name;
+  if (name.includes(" ")) {
+    nameParsed = name.split(" ")[0];
+  }
   let messageData = message;
   var messageCutLength = 197;
   if (message.length > 194) {
@@ -49,6 +58,27 @@ function Submitted({ message }) {
   function handleWhatsAppShare() {
     const url = "https://api.whatsapp.com/send?text=" + whatsAppShare;
     window.open(url, "_blank").focus();
+  }
+
+  function sendEmail() {
+    console.log("Attempting Send Question");
+
+    var formdata = new FormData();
+    formdata.append("messageContent", message);
+    formdata.append("email", email);
+    formdata.append("userName", nameParsed);
+    formdata.append("userNameFull", name);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch("https://new.leedsunitedtrust.com/gracias.php", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   }
 
   return (
