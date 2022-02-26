@@ -374,6 +374,8 @@ function MessageForm() {
                     value={nameInput}
                     onChange={(e) => setNameInput(e.target.value)}
                     error={nameError}
+                    type={"name"}
+                    autoComplete={"name"}
                   />
                 </InputItem>
                 <InputItem>
@@ -384,6 +386,8 @@ function MessageForm() {
                     onChange={(e) => setEmailInput(e.target.value)}
                     error={emailError}
                     autoCapitalize={false}
+                    type={"email"}
+                    autoComplete={"email"}
                   />
                 </InputItem>
                 <InputItem>
