@@ -21,7 +21,7 @@ const Desc = styled.div`
   font-weight: 400;
 `;
 
-function Submitted({ message, email, name }) {
+function Submitted({ message, email, nam, cookieSubmitted }) {
   useEffect(() => {
     sendEmail();
   }, []);
@@ -43,6 +43,12 @@ function Submitted({ message, email, name }) {
     `My message to Marcelo Bielsa: ` +
     message +
     ". Add your own at https://gracias-marcelo.lufctrust.com";
+
+  if (cookieSubmitted) {
+    twitterShare = "Send a message of thanks to Marcelo Bielsa! Visit ";
+    whatsAppShare =
+      "Send a message of thanks to Marcelo Bielsa! Visit https://gracias-marcelo.lufctrust.com";
+  }
 
   function handleTwitterShare() {
     const url =
@@ -83,8 +89,16 @@ function Submitted({ message, email, name }) {
 
   return (
     <ContentContainer>
-      <Title>Message submitted!</Title>
-      <Desc>Share your message on Social Media</Desc>
+      <Title>
+        {cookieSubmitted
+          ? "It looks like you already submitted a messsage"
+          : "Message submitted!"}
+      </Title>
+      <Desc>
+        {cookieSubmitted
+          ? "Share on Social Media so others can add a message too?"
+          : "Share your message on Social Media?"}
+      </Desc>
       <Button text={"Share on Twitter"} action={handleTwitterShare} />
       <Button
         text={"Share on WhatsApp"}

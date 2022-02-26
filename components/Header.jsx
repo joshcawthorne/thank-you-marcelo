@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 import Logo from "assets/svg/lustLogo.svg";
 
@@ -28,13 +29,16 @@ const HeaderContainer = styled.div`
   padding: 20px;
 `;
 
-const LogoContainer = styled.div``;
+const LogoContainer = styled(motion.div)``;
 
 function Header() {
   return (
     <HeaderOuter>
       <HeaderContainer>
-        <LogoContainer>
+        <LogoContainer
+          animate={{ opacity: 1, transition: { delay: 2, duration: 0.4 } }}
+          initial={{ opacity: 0 }}
+        >
           <Logo width={"50px"} />
         </LogoContainer>
       </HeaderContainer>

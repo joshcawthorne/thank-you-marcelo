@@ -76,11 +76,6 @@ const ButtonItem = styled.button`
     css`
       opacity: 0.6;
 
-      background-color: transparent;
-      border-color: ${(props) => props.theme.text10};
-      color: ${(props) => props.theme.text50};
-      border-width: 2px;
-      border-style: solid;
       cursor: not-allowed;
 
       :hover {

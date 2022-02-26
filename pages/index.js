@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Image from "next/image";
 import axios from "axios";
-import BackgroundImage from "assets/images/background.webp";
 
 import MessageForm from "components/MessageForm";
 import TextContent from "components/TextContent";

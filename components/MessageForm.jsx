@@ -1,6 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
+import {
+  EReCaptchaV2Size,
+  EReCaptchaV2Theme,
+  ReCaptchaProvider,
+  ReCaptchaV2,
+} from "react-recaptcha-x";
+import Cookies from "js-cookie";
 
 import { supabase } from "utils/supabaseClient";
 import Submitted from "components/Submitted";
@@ -146,10 +153,14 @@ const Label = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   padding: 20px;
   background-color: #102330;
-  justify-content: flex-end;
+  @media (max-width: 760px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const ErrorContainer = styled(motion.div)`
@@ -191,6 +202,12 @@ const ModalMessageContainer = styled.div`
   font-family: "Public Sans", sans-serif;
 `;
 
+const CaptchaContainer = styled.div`
+  @media (max-width: 560px) {
+    margin-bottom: 20px;
+  }
+`;
+
 function MessageForm() {
   const [messageInput, setMessageInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -203,6 +220,15 @@ function MessageForm() {
   const [emailError, setEmailError] = useState(false);
   const [messageError, setMessageError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [notRobot, setNotRobot] = useState(false);
+  const [cookieSubmitted, setCookieSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (Cookies.get("submitted")) {
+      setSubmitted(true);
+      setCookieSubmitted(true);
+    }
+  }, []);
 
   async function handleSubmit() {
     setEmailError(false);
@@ -266,6 +292,7 @@ function MessageForm() {
       } else if (data) {
         setTimeout(() => {
           console.log(data);
+          Cookies.set("submitted", true, { expires: 31 });
           setLoading(false);
           setSubmitted(true);
         }, 2000);
@@ -276,70 +303,122 @@ function MessageForm() {
     }
   }
 
-  return (
-    <>
-      <MessageFormContainer>
-        {submitted ? (
-          <Submitted
-            message={messageInput}
-            email={emailInput}
-            name={nameInput}
-          />
-        ) : (
-          <div>
-            <ContentContainer>
-              {error && (
-                <ErrorContainer
-                  initial={{ opacity: 0 }}
-                  animate={error ? { opacity: 1 } : { opacity: 0 }}
-                >
-                  <ModalIconContainer>
-                    <ErrorIcon stroke={"#fff"} width={"35px"} />
-                  </ModalIconContainer>
-                  <ModalMessageContainer>{errorMessage}</ModalMessageContainer>
-                </ErrorContainer>
-              )}
+  const v2Callback = (token) => {
+    if (typeof token === "string") {
+      setNotRobot(true);
+    } else if (typeof token === "boolean" && !token) {
+      setNotRobot(false);
+      setError(true);
+      setErrorMessage("Please complete the captcha");
+    } else if (token instanceof Error) {
+      setNotRobot(false);
+      setError(true);
+      setErrorMessage("Please complete the captcha");
+    }
+  };
 
-              <Title>Submit a Message</Title>
-              <InputItem>
-                <Label>Your Name</Label>
-                <TextInput
-                  placeholder="Your Name"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  error={nameError}
+  const ContainerAnim = {
+    hidden: { opacity: 0, y: 0 },
+    show: {
+      opacity: [0, 1],
+      y: 0,
+      transition: {
+        duation: 0.1,
+        ease: "easeOut",
+        type: "spring",
+        velocity: 200,
+        stiffness: 500,
+        damping: 100,
+        delay: 2,
+      },
+    },
+  };
+
+  return (
+    <motion.div variants={ContainerAnim} initial="hidden" animate={"show"}>
+      <ReCaptchaProvider
+        siteKeyV2="6LfWaKIeAAAAADk4mEmTIcCe5p-pOYaXjHjUOOks"
+        langCode="en"
+        hideV3Badge={false}
+      >
+        <MessageFormContainer>
+          {submitted ? (
+            <Submitted
+              message={messageInput}
+              email={emailInput}
+              name={nameInput}
+              cookieSubmitted={cookieSubmitted}
+            />
+          ) : (
+            <div>
+              <ContentContainer>
+                {error && (
+                  <ErrorContainer
+                    initial={{ opacity: 0 }}
+                    animate={error ? { opacity: 1 } : { opacity: 0 }}
+                  >
+                    <ModalIconContainer>
+                      <ErrorIcon stroke={"#fff"} width={"35px"} />
+                    </ModalIconContainer>
+                    <ModalMessageContainer>
+                      {errorMessage}
+                    </ModalMessageContainer>
+                  </ErrorContainer>
+                )}
+
+                <Title>Submit a Message</Title>
+                <InputItem>
+                  <Label>Your Name</Label>
+                  <TextInput
+                    placeholder="Your Name"
+                    value={nameInput}
+                    onChange={(e) => setNameInput(e.target.value)}
+                    error={nameError}
+                  />
+                </InputItem>
+                <InputItem>
+                  <Label>Your Email</Label>
+                  <TextInput
+                    placeholder="Your email"
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                    error={emailError}
+                  />
+                </InputItem>
+                <InputItem>
+                  <Label>Your Message</Label>
+                  <MessageContent
+                    value={messageInput}
+                    onChange={(e) => setMessageInput(e.target.value)}
+                    rows={10}
+                    error={messageError}
+                  />
+                </InputItem>
+              </ContentContainer>
+
+              <ButtonContainer>
+                <CaptchaContainer>
+                  <ReCaptchaV2
+                    callback={v2Callback}
+                    theme={EReCaptchaV2Theme.Dark}
+                    size={EReCaptchaV2Size.Normal}
+                    id="my-id"
+                    data-test-id="my-test-id"
+                    tabindex={0}
+                  />
+                </CaptchaContainer>
+                <Button
+                  text={"Submit Message"}
+                  action={handleSubmit}
+                  loading={loading}
+                  disabled={!notRobot}
                 />
-              </InputItem>
-              <InputItem>
-                <Label>Your Email</Label>
-                <TextInput
-                  placeholder="Your email"
-                  value={emailInput}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                  error={emailError}
-                />
-              </InputItem>
-              <InputItem>
-                <Label>Your Message</Label>
-                <MessageContent
-                  value={messageInput}
-                  onChange={(e) => setMessageInput(e.target.value)}
-                  rows={10}
-                  error={messageError}
-                />
-              </InputItem>
-            </ContentContainer>
-            <ButtonContainer>
-              <Button
-                text={"Submit Message"}
-                action={handleSubmit}
-                loading={loading}
-              />
-            </ButtonContainer>
-          </div>
-        )}
-      </MessageFormContainer>
-    </>
+              </ButtonContainer>
+            </div>
+          )}
+        </MessageFormContainer>
+      </ReCaptchaProvider>
+    </motion.div>
   );
 }
 
