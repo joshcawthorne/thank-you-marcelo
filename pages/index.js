@@ -120,7 +120,7 @@ export default function Home() {
           description: "Share your message of thanks with Marcelo.",
           images: [
             {
-              url: "/openGraphImage.jpg",
+              url: "https://gracias-marcelo.lufctrust.com/openGraphImage.jpg",
               width: 1200,
               height: 630,
               alt: "Gracias, Marcelo",
