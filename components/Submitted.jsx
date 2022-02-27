@@ -36,7 +36,7 @@ const ButtonTwoContainer = styled.div`
   }
 `;
 
-function Submitted({ message, email, nam, cookieSubmitted }) {
+function Submitted({ message, email, name, cookieSubmitted }) {
   useEffect(() => {
     sendEmail();
   }, []);
