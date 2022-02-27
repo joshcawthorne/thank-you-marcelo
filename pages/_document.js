@@ -21,19 +21,7 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-HGVBEPRWDB"
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
-           window.dataLayer = window.dataLayer || [];
-           function gtag(){dataLayer.push(arguments);}
-           gtag('js', new Date());
-         
-           gtag('config', 'G-HGVBEPRWDB');
-        `}
-          </Script>
+
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"

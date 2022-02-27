@@ -2,6 +2,7 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Image from "next/image";
 import axios from "axios";
 import { NextSeo } from "next-seo";
+import Script from "next/script";
 
 import MessageForm from "components/MessageForm";
 import TextContent from "components/TextContent";
@@ -110,6 +111,19 @@ const StyledImage = styled(Image)``;
 export default function Home() {
   return (
     <PageContainer>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-HGVBEPRWDB"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+           window.dataLayer = window.dataLayer || [];
+           function gtag(){dataLayer.push(arguments);}
+           gtag('js', new Date());
+         
+           gtag('config', 'G-HGVBEPRWDB');
+        `}
+      </Script>
       <NextSeo
         title="Gracias, Marcelo."
         description="Share your message of thanks with Marcelo."
