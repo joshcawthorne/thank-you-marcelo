@@ -63,6 +63,7 @@ const PageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 100px;
 `;
 
 const InnerContainer = styled.div`
@@ -108,53 +109,121 @@ const ColorOverlay = styled.div`
 
 const StyledImage = styled(Image)``;
 
+const Footer = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #110c1d;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 10;
+`;
+
+const FooterInner = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 40px;
+  color: #fff;
+  font-size: 12px;
+
+  opacity: 0.7;
+  a {
+    margin-left: 5px;
+    display: inline-block;
+    color: #fbf200;
+  }
+  @media (max-width: 760px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+`;
+
+const Created = styled.div`
+  span {
+    margin-left: 5px;
+  }
+  @media (max-width: 550px) {
+    span {
+      display: none;
+    }
+  }
+`;
+
 export default function Home() {
   return (
-    <PageContainer>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-HGVBEPRWDB"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
+    <>
+      <PageContainer>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-HGVBEPRWDB"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
            window.dataLayer = window.dataLayer || [];
            function gtag(){dataLayer.push(arguments);}
            gtag('js', new Date());
          
            gtag('config', 'G-HGVBEPRWDB');
         `}
-      </Script>
-      <NextSeo
-        title="Gracias, Marcelo."
-        description="Share your message of thanks with Marcelo."
-        canonical="https://gracias-marcelo.lufctrust.com/"
-        openGraph={{
-          url: "https://gracias-marcelo.lufctrust.com/",
-          title: "Gracias, Marcelo.",
-          description: "Share your message of thanks with Marcelo.",
-          images: [
-            {
-              url: "https://gracias-marcelo.lufctrust.com/og-image.jpg",
-              width: 1200,
-              height: 630,
-              alt: "Gracias, Marcelo",
-              type: "image/jpg",
-            },
-          ],
-          site_name: "Gracias, Marcelo.",
-        }}
-        twitter={{
-          handle: "@lufctrust",
-          site: "https://gracias-marcelo.lufctrust.com/",
-          cardType: "summary_large_image",
-        }}
-      />
-      <GlobalStyle />
-      <Header />
-      <InnerContainer>
-        <TextContent />
-        <MessageForm />
-      </InnerContainer>
-    </PageContainer>
+        </Script>
+        <NextSeo
+          title="Gracias, Marcelo."
+          description="Share your message of thanks with Marcelo."
+          canonical="https://gracias-marcelo.lufctrust.com/"
+          openGraph={{
+            url: "https://gracias-marcelo.lufctrust.com/",
+            title: "Gracias, Marcelo.",
+            description: "Share your message of thanks with Marcelo.",
+            images: [
+              {
+                url: "https://gracias-marcelo.lufctrust.com/og-image.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Gracias, Marcelo",
+                type: "image/jpg",
+              },
+            ],
+            site_name: "Gracias, Marcelo.",
+          }}
+          twitter={{
+            handle: "@lufctrust",
+            site: "https://gracias-marcelo.lufctrust.com/",
+            cardType: "summary_large_image",
+          }}
+        />
+        <GlobalStyle />
+        <Header />
+        <InnerContainer>
+          <TextContent />
+          <MessageForm />
+        </InnerContainer>
+      </PageContainer>
+      <Footer>
+        <FooterInner>
+          {"Copyright 2022 - Leeds United Supporters' Trust"}
+          <Created>
+            <span>|</span> Designed & Created by
+            <a
+              href="https://www.joshcawthorne.com"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Josh Cawthorne
+            </a>
+          </Created>
+        </FooterInner>
+      </Footer>
+    </>
   );
 }
