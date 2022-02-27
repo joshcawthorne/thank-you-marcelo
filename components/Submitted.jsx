@@ -38,7 +38,7 @@ const ButtonTwoContainer = styled.div`
 
 function Submitted({ message, email, name, cookieSubmitted }) {
   useEffect(() => {
-    sendEmail();
+    //sendEmail();
   }, []);
 
   let nameParsed = name;
