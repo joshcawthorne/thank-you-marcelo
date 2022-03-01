@@ -96,10 +96,10 @@ function Submitted({ message, email, name, cookieSubmitted }) {
       redirect: "follow",
     };
 
-    fetch("https://new.leedsunitedtrust.com/gracias.php", requestOptions)
+    /*fetch("https://new.leedsunitedtrust.com/gracias.php", requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("error", error));*/
   }
 
   return (
